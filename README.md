@@ -66,9 +66,9 @@ We use Raspberry Pi 3 and the STM32 board a.k.a Blue Pill to communicate with ca
 
   1. Make sure SSH and VNC is enabled. If not go to `sudo raspi-config` then `Interfacing Options`.
 
-  2. Get your Raspberry Pi ip adress. `ifconfig`
+  2. Connect your PC to the same WiFi network.
 
-  3. Connect your PC to the same WiFi network.
+  3. Get your Raspberry Pi ip adress. `ifconfig` or use IP Scanner.
 
   4. Connect your PC to Raspberry using for e.g. [PuTTY](https://www.putty.org/).
 
