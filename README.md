@@ -20,7 +20,7 @@ We use Raspberry Pi 3 and the STM32 board a.k.a Blue Pill to communicate with ca
 
 #### Connect Raspberry Pi to WiFi.
 
-<!-- <details><summary><b>Show instructions</b></summary> -->
+<details><summary><b>Show instructions</b></summary>
 
 1. Check for available WiFi on your Raspberry Pi:
 
@@ -58,6 +58,21 @@ We use Raspberry Pi 3 and the STM32 board a.k.a Blue Pill to communicate with ca
     You should get `OK` output.
 
     Now if you check connection again there will be information about your network.
+</details>
+
+#### Connect your PC to Raspberry Pi using SSH.
+
+<details><summary><b>Show instructions</b></summary>
+
+  1. Make sure SSH and VNC is enabled. If not go to `sudo raspi-config` then `Interfacing Options`.
+
+  2. Get your Raspberry Pi ip adress. `ifconfig`
+
+  3. Connect your PC to the same WiFi network.
+
+  4. Connect your PC to Raspberry using for e.g. [PuTTY](https://www.putty.org/).
+
+</details>
 
 
 ## Miscellaneous
