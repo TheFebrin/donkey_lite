@@ -83,6 +83,7 @@ TODO
 
 ## Technologies
 * Python - version 3.7.3
+TODO
 
 ## Status
 Project is: _just_started_,
