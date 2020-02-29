@@ -25,7 +25,7 @@ try:
             print("break ticks left: ", back_counter)
             bluepill.drive(0.75, BACKWARD_SPEED)
             back_counter -= 1
-            #bluepill.drive(0.0,0.0)
+            # bluepill.drive(0.0,0.0)
         else:
             if distance > DIST_THRESHOLD:
                 bluepill.drive(0, FORWARD_SPEED)
@@ -37,6 +37,6 @@ try:
                 time.sleep(0.1)
                 bluepill.drive(0, BACKWARD_SPEED)
                 back_counter = 15
-        
+
 finally:
     bluepill.stop_and_disengage_autonomy()
