@@ -173,6 +173,7 @@ TODO
 
 ## Technologies
 * Python - version 3.7.3
+* donkeycar
 TODO
 
 ## Status
