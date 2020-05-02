@@ -4,6 +4,7 @@
 ## Table of contents
 * [General info](#general-info)
 * [Connection](#connection)
+* [Functionality](#functionality)
 * [Miscellaneous](#miscellaneous)
 * [Screenshots](#screenshots)
 * [Technologies](#technologies)
@@ -160,6 +161,24 @@ We use Raspberry Pi 3 and the STM32 board a.k.a Blue Pill to communicate with ca
       camera.stop_preview()
       ```
 
+</details>
+
+
+## Functionality
+TODO
+<details><summary><b>donkey_lite\camera</b></summary>
+
+1. camera_preview.py
+
+2. record_video.py
+    - records 5s video and saves it
+
+
+3. take_picture.py
+
+4. web_camera.py
+    - You can watch the camera stream at http://172.16.0.13:8887/status
+    - Now also saves every frame recorded
 </details>
 
 ## Miscellaneous
