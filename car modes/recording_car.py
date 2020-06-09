@@ -1,8 +1,11 @@
 import datetime
 import numpy as np
 
-import car_config
+import sys
+sys.path.insert(0, '..')
 import parts
+import car_config
+
 
 my_car = car_config.my_car()
 bluepill = parts.BluePill(**car_config.bluepill_configs[my_car])
@@ -35,6 +38,7 @@ try:
         img = cam.get_image()
         web_status.set_image(img)
         web_status.set_car_status(car_status)
+    
         if is_recording:
             tub.write(car_status.user_angle,
                     car_status.user_throttle,
