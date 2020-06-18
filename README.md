@@ -193,10 +193,11 @@ TODO
 ## Technologies
 * Python - version 3.7.3
 * donkeycar
-TODO
+* pytorch - [Tutorial](https://medium.com/secure-and-private-ai-writing-challenge/a-step-by-step-guide-to-installing-pytorch-in-raspberry-pi-a1491bb80531)
+* cv2 - [Common issue](https://github.com/EdjeElectronics/TensorFlow-Object-Detection-on-the-Raspberry-Pi/issues/67)
 
 ## Status
 Project is: _just_started_,
 
 ## Inspiration
-Most of the code is adapted from https://github.com/autorope/donkeycar
+Original repo: https://github.com/autorope/donkeycar
