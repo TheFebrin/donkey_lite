@@ -9,6 +9,9 @@ import torch.nn.functional as F
 import numpy as np
 import car_config
 import parts
+import cv2
+from PIL import Image
+import matplotlib.pyplot as plt
 
 
 class CNN(nn.Module):
@@ -71,24 +74,54 @@ timer = parts.Timer(frequency=20)
 cam = parts.PiCamera()
 
 PATH = '../learning_models/saved_models/model.tch'
-model = model = torch.load(PATH)
+model = CNN()
+model.load_state_dict(torch.load(PATH, map_location='cpu'))
 model.to('cpu')
 model.eval()
 
+i = 0
 
-def predict(image):
-    pass
+def predict(img, sigma=0.33):
+    global i
+    i += 1
+    CROP_SIZE = 50
+    im = Image.fromarray((img * 255).astype(np.uint8))
+    img = np.array(im.convert('L'))
 
+    img = img[-CROP_SIZE:, :]
+    a, b = img.shape
+    plt.imshow(img, cmap='gray')
+    plt.savefig(f'tmp/cropped_images{i}.png')
+
+    v = np.median(img)
+    lower = int(max(0, (1.0 - sigma) * v))
+    upper = int(min(255, (1.0 + sigma) * v))
+    img = cv2.Canny(img, lower, upper)
+
+    plt.imshow(img, cmap='gray')
+    plt.savefig(f'tmp/images{i}.png')
+    img = img.reshape(1, 1, a, b)
+    img = torch.Tensor(img)
+
+    out = model(img).detach().numpy()
+    # print('\n' + '-' * 50 + '\n')
+    # print('PREDICTION:  ', out)
+    # print('\n' + '-' * 50 + '\n')
+    return out
 
 if __name__ == '__main__':
+    iter = 0
     try:
         while True:
+            iter += 1
+            print(f'Iter: {iter}')
             timer.tick()
             car_status = bluepill.get_status()
             im = cam.get_image() / 255.0
             ang = predict(im)
-            thr = 0
-            bluepill.drive(ang, car_status.user_throttle)
+            thr = 0.2
+            # bluepill.drive(ang, car_status.user_throttle)
+            bluepill.drive(ang, thr)
             print(ang, car_status.user_throttle)
     finally:
         bluepill.stop_and_disengage_autonomy()
