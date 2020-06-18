@@ -1,10 +1,10 @@
-import datetime
-import numpy as np
-
 import sys
 sys.path.insert(0, '..')
-import parts
+
 import car_config
+import parts
+import datetime
+import numpy as np
 
 
 my_car = car_config.my_car()
@@ -15,7 +15,8 @@ cam = parts.PiCamera()
 web_status = parts.WebStatus()
 
 # add tub to save data
-inputs = ['user_angle', 'user_throttle', 'distance', 'image_array', 'timestamp']
+inputs = ['user_angle', 'user_throttle',
+          'distance', 'image_array', 'timestamp']
 types = ['float', 'float', 'float', 'image_array', 'str']
 
 # single tub
@@ -38,12 +39,12 @@ try:
         img = cam.get_image()
         web_status.set_image(img)
         web_status.set_car_status(car_status)
-    
+
         if is_recording:
             tub.write(car_status.user_angle,
-                    car_status.user_throttle,
-                    car_status.distance,
-                    img,
-                    timestamp)
+                      car_status.user_throttle,
+                      car_status.distance,
+                      img,
+                      timestamp)
 finally:
     bluepill.stop_and_disengage_autonomy()
