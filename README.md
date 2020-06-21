@@ -165,20 +165,49 @@ We use Raspberry Pi 3 and the STM32 board a.k.a Blue Pill to communicate with ca
 
 
 ## Functionality
-TODO
-<details><summary><b>donkey_lite\camera</b></summary>
+<details><summary><b>donkey_lite/camera</b></summary>
 
-1. camera_preview.py
+* camera_preview.py
+    - Shows X second of video at given transparency
+* record_video.py
+    - Records 5 seconds video
+* take_picture.py
 
-2. record_video.py
-    - records 5s video and saves it
-
-
-3. take_picture.py
-
-4. web_camera.py
+* web_camera.py
     - You can watch the camera stream at http://172.16.0.13:8887/status
     - Now also saves every frame recorded
+</details>
+
+
+<details><summary><b>donkey_lite/car_modes</b></summary>
+
+* recording_car.py
+* simple_autonomous_car.py
+* wall_bouncing_car.py
+
+</details>
+
+
+<details><summary><b>donkey_lite/drive_using_keyboard</b></summary>
+
+* Allows you to drive using your keybord. <br> Uses *pygame* window to render buttons and listen to keys.
+
+</details>
+
+
+<details><summary><b>donkey_lite/learning_models</b></summary>
+
+* Image preprocessing
+* Self-driving model training
+* Saved models
+
+</details>
+
+
+<details><summary><b>donkey_lite/parts</b></summary>
+
+* Used to communicate with car's hardware.
+
 </details>
 
 ## Miscellaneous
@@ -200,4 +229,4 @@ TODO
 Project is: _just_started_,
 
 ## Inspiration
-Original repo: https://github.com/autorope/donkeycar
+Donkey car repo: https://github.com/autorope/donkeycar
