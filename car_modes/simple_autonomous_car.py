@@ -18,44 +18,21 @@ class CNN(nn.Module):
     def __init__(self):
         super(CNN, self).__init__()
 
-        kernel = (5, 5)
+        kernel = (3, 3)
         self.conv = nn.Sequential(
-            nn.Conv2d(in_channels=1, out_channels=24, kernel_size=kernel,
-                      stride=1, padding=1),
-            nn.ReLU(),
-            nn.MaxPool2d((2, 2)),
-
-            nn.Conv2d(in_channels=24, out_channels=32, kernel_size=kernel,
-                      stride=1, padding=1),
-            nn.ReLU(),
-            nn.MaxPool2d((2, 2)),
-
-            nn.Conv2d(in_channels=32, out_channels=64, kernel_size=kernel,
-                    stride=1, padding=1),
-            nn.ReLU(),
-            nn.MaxPool2d((2, 2)),
-
-            nn.Conv2d(in_channels=64, out_channels=64, kernel_size=(3, 3),
-                    stride=1, padding=1),
-            nn.ReLU(),
-            nn.MaxPool2d((2, 2)),
-
-            nn.Conv2d(in_channels=64, out_channels=64, kernel_size=(3, 3),
-                    stride=1, padding=1),
-            nn.ReLU(),
-            nn.MaxPool2d((2, 2))
+            nn.Conv2d(3, 24, kernel_size=kernel, stride=(2, 2), bias=False),
+            nn.ELU(alpha=1.0),
+            nn.Conv2d(24, 48, kernel_size=kernel, stride=(2, 2), bias=False),
+            nn.MaxPool2d(kernel_size=(4, 4), stride=(4, 4), dilation=(1, 1)),
+            nn.Dropout(p = 0.25)
         )
-
-        cnn_output_shape = 256
         self.linear = nn.Sequential(
-            nn.Linear(cnn_output_shape, 500),
-            nn.BatchNorm1d(500),
-            nn.Dropout(0.1),
-            nn.ReLU(),
-            nn.Linear(500, 1),
-            nn.Dropout(0.1),
-            nn.Tanh()
+            nn.Linear(864, 50),
+            nn.ELU(alpha=1.0),
+            nn.Linear(50, 10),
+            nn.Linear(10, 1),
         )
+
 
     def forward(self, X):
         out = self.conv(X)
@@ -73,40 +50,22 @@ bluepill = parts.BluePill(**car_config.bluepill_configs[my_car])
 timer = parts.Timer(frequency=20)
 cam = parts.PiCamera()
 
-PATH = '../learning_models/saved_models/model.tch'
+PATH = '../learning_models/saved_models/model1.tch'
 model = CNN()
 model.load_state_dict(torch.load(PATH, map_location='cpu'))
 model.to('cpu')
 model.eval()
 
-i = 0
 
 def predict(img, sigma=0.33):
-    global i
-    i += 1
     CROP_SIZE = 50
-    im = Image.fromarray((img * 255).astype(np.uint8))
-    img = np.array(im.convert('L'))
 
-    img = img[-CROP_SIZE:, :]
-    a, b = img.shape
-    plt.imshow(img, cmap='gray')
-    plt.savefig(f'tmp/cropped_images{i}.png')
-
-    v = np.median(img)
-    lower = int(max(0, (1.0 - sigma) * v))
-    upper = int(min(255, (1.0 + sigma) * v))
-    img = cv2.Canny(img, lower, upper)
-
-    plt.imshow(img, cmap='gray')
-    plt.savefig(f'tmp/images{i}.png')
-    img = img.reshape(1, 1, a, b)
+    img = img[-CROP_SIZE:, :, :]
+    a, b, c = img.shape
+    img = img.reshape(1, c, a, b)
     img = torch.Tensor(img)
-
+    print(img.shape)
     out = model(img).detach().numpy()
-    # print('\n' + '-' * 50 + '\n')
-    # print('PREDICTION:  ', out)
-    # print('\n' + '-' * 50 + '\n')
     return out
 
 if __name__ == '__main__':
@@ -120,8 +79,8 @@ if __name__ == '__main__':
             im = cam.get_image() / 255.0
             ang = predict(im)
             thr = 0.2
-            # bluepill.drive(ang, car_status.user_throttle)
-            bluepill.drive(ang, thr)
+            bluepill.drive(ang, car_status.user_throttle)
+            # bluepill.drive(ang, thr)
             print(ang, car_status.user_throttle)
     finally:
         bluepill.stop_and_disengage_autonomy()
