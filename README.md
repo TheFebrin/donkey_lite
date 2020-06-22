@@ -217,7 +217,10 @@ We use Raspberry Pi 3 and the STM32 board a.k.a Blue Pill to communicate with ca
 `
 
 ## Screenshots
-TODO
+
+* Self driving
+
+    ![GIF](videos/self_driving_demo.gif)
 
 ## Technologies
 * Python - version 3.7.3
